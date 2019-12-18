@@ -1909,3 +1909,8 @@ table.dataTable thead .sorting_desc_disabled {
 table.dataTable tbody tr {
     background-color: transparent;
 }
+
+.asocialnetwork_content {
+	max-width: 1000px;
+	margin: 0 auto;
+}

@@ -3,7 +3,7 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8"> 
 		<link rel="stylesheet" href="https://cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css" integrity="sha384-zm3nV72ZseVXQf1A4MjCECEgArFvdcPEUUc9iF+UBbfALpO2sUdjKGQriXbM4z+R" crossorigin="anonymous">
-		<link type="text/css" rel="stylesheet" href="./stylesheet.css">
+		<link type="text/css" rel="stylesheet" href="../stylesheet.css">
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js" integrity="sha384-xBuQ/xzmlsLoJpyjoggmTEz8OWUFM0/RC5BsqQBDX2v5cMvDHcMakNTNrHIW2I5f" crossorigin="anonymous" defer></script>
 		<script src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js" integrity="sha384-NHtbx1Hf6ctHNdZmU28YfhGjB63gcU1YU64ttM+c0RxMKNBj67j+N/axpqTfdffo" crossorigin="anonymous" defer></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.min.js" integrity="sha384-nuT0qw6vBhqN718uyKaI6w1EXH49c5XiMUqmHEEiJadrKmJtmQOVVsd8vTgBpr8h" crossorigin="anonymous" defer></script>
@@ -41,17 +41,89 @@
 		<meta property="og:description" content="A social network - Dimini Inc." />
 	</head>
 	<body>
-        <?php include("../../global/tagmanager.php"); ?>
+        <?php include("../../../global/tagmanager.php"); ?>
 		<div id="site" class="asocial-network">
-			<?php include("./notification.php"); ?>
-			<?php include("./header.php"); ?>
+			<?php include("../notification.php"); ?>
+			<?php include("../header.php"); ?>
 			<div id="asocialnetwork_content">
-				<div id="profile-card">
-					Photo
-					Name
+
+				<div id="head-section">
+					<?php 
+						require_once '../connection.php';
+						$link = mysqli_connect($host, $user, $pass, $database) 
+						    or die("Error " . mysqli_error($link));
+						$link->set_charset("utf8");
+						$nickname=$_COOKIE["username"];
+						$password=$_COOKIE["password"];
+						if (!isset($_SESSION[$nickname]))
+						{
+							// $nickname=$_GET['nickname'];
+							// echo $_GET['nickname'];
+							if(isset($_GET['nickname'])) { $nickname=$_GET['nickname']; } 
+							$result=mysqli_query($link,"SELECT * FROM users where nickname='$nickname'");
+						 	$myrow= mysqli_fetch_array($result);
+						 	$password_hash = $myrow['password'];
+							if(password_verify($password , $password_hash))
+							{
+								$result=mysqli_query($link,"SELECT * FROM users join person using(id) where users.nickname='$nickname'");
+						 		$myrow= mysqli_fetch_array($result);
+						 		echo $myrow['first_name'].' '. $myrow['middle_name'].' '. $myrow['last_name']."<br>";
+						 		echo $myrow['sex']."<br>";
+						 		echo $myrow['birth_day'].'/'. $myrow['birth_month'].'/'. $myrow['birth_year']."<br>";
+						 		echo $myrow['city'].', '. $myrow['country']."<br>";
+						 		echo $myrow['mother']."<br>";
+						 		echo $myrow['father']."<br>";
+						 		echo $myrow['religion']."<br>";
+						 		echo $myrow['political_views']."<br>";
+							}
+							else
+							{
+							     echo'<span style="color: red; font-weight: bold;">fail</span>'; 
+							}
+						}
+						while($myrow=mysqli_fetch_array($result));
+					?>
+					<a href="/test/practice-6/profile/edit.php">Edit</a>
+				</div>
+				<div class="data-section">
+					<?php 
+						$nickname_real=$_COOKIE["username"];
+						if (!isset($_SESSION[$nickname]))
+						{
+							// $nickname=$_GET['nickname'];
+							// echo $_GET['nickname'];
+							if(isset($_GET['nickname'])) { $nickname=$_GET['nickname']; } 
+							if ((isset($_GET['nickname'])) && mysqli_fetch_array(mysqli_query($link,("SELECT * FROM users where nickname='$nickname_real'")))['role']=="admin" || $nickname==$nickname_real) 
+							{
+								if (mysqli_fetch_array(mysqli_query($link,("SELECT * FROM users where nickname='$nickname_real'")))['role']=="admin") 
+								{
+									echo "i'm admin";
+								}
+								$result=mysqli_query($link,"SELECT * FROM users where nickname='$nickname'");
+							 	$myrow= mysqli_fetch_array($result);
+							 	$password_hash = $myrow['password'];
+								if(password_verify($password , $password_hash))
+								{
+									$result=mysqli_query($link,"SELECT * FROM users join contacts on(users.id=contacts.owner) where users.nickname='$nickname'");
+							 		$myrow= mysqli_fetch_array($result);
+							 		do
+							 		{
+							 			echo $myrow['account'].': '. $myrow['account_id']."<br>";
+							 		}
+									while($myrow=mysqli_fetch_array($result));
+								}
+								else
+								{
+								     echo'<span style="color: red; font-weight: bold;">fail</span>'; 
+								}
+							}
+						}
+						 while($myrow=mysqli_fetch_array($result));
+						 mysqli_close($link);
+					?>
 				</div>
 			</div>
-			<?php include("./footer.php"); ?>
+			<?php include("../footer.php"); ?>
 		</div>
 	</body>
 </html>

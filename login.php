@@ -1,5 +1,5 @@
 <?php
-require_once '../connection.php';
+require_once 'connection.php';
 
 $link = mysqli_connect($host, $user, $pass, $database) 
     or die("Error " . mysqli_error($link));
@@ -11,7 +11,16 @@ $result=mysqli_query($link,"SELECT * FROM users where nickname='$nickname'");
  $password_hash = $myrow['password'];
 if(password_verify($_POST['password'] , $password_hash))
 {
+	session_start();
+	$_SESSION[$nickname] = $nickname;
+	setcookie("username", $nickname);
+	setcookie("password", $password);
      echo'<span style="color: red; font-weight: bold;">nice</span>'; 
+     $url = './profile/index.php';
+    ob_start();
+    header('Location: '.$url);
+    ob_end_flush();
+    die();
 }
 else
 {

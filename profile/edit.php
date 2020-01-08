@@ -3,7 +3,7 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8"> 
 		<link rel="stylesheet" href="https://cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css" integrity="sha384-zm3nV72ZseVXQf1A4MjCECEgArFvdcPEUUc9iF+UBbfALpO2sUdjKGQriXbM4z+R" crossorigin="anonymous">
-		<link type="text/css" rel="stylesheet" href="./stylesheet.css">
+		<link type="text/css" rel="stylesheet" href="../stylesheet.css">
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js" integrity="sha384-xBuQ/xzmlsLoJpyjoggmTEz8OWUFM0/RC5BsqQBDX2v5cMvDHcMakNTNrHIW2I5f" crossorigin="anonymous" defer></script>
 		<script src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js" integrity="sha384-NHtbx1Hf6ctHNdZmU28YfhGjB63gcU1YU64ttM+c0RxMKNBj67j+N/axpqTfdffo" crossorigin="anonymous" defer></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.min.js" integrity="sha384-nuT0qw6vBhqN718uyKaI6w1EXH49c5XiMUqmHEEiJadrKmJtmQOVVsd8vTgBpr8h" crossorigin="anonymous" defer></script>
@@ -41,22 +41,73 @@
 		<meta property="og:description" content="A social network - Dimini Inc." />
 	</head>
 	<body>
-        <?php include("../../global/tagmanager.php"); ?>
+        <?php include("../../../global/tagmanager.php"); ?>
 		<div id="site" class="asocial-network">
-			<?php include("./notification.php"); ?>
-			<?php include("./header.php"); ?>
+			<?php include("../notification.php"); ?>
+			<?php include("../header.php"); ?>
 			<div id="asocialnetwork_content">
+
 				<div id="head-section">
-					Photo
-					Name
-					Edit button
+				<?php 
+					require_once '../connection.php';
+					$link = mysqli_connect($host, $user, $pass, $database) 
+					    or die("Error " . mysqli_error($link));
+					$link->set_charset("utf8");
+					$nickname=$_COOKIE["username"];
+					$password=$_COOKIE["password"];
+					if (!isset($_SESSION[$nickname]))
+					{
+						// $nickname=$_GET['nickname'];
+						// echo $_GET['nickname'];
+						$result=mysqli_query($link,"SELECT * FROM users where nickname='$nickname'");
+					 	$myrow= mysqli_fetch_array($result);
+					 	$password_hash = $myrow['password'];
+						if(password_verify($password , $password_hash))
+						{
+							$result=mysqli_query($link,"SELECT * FROM users join person using(id) where users.nickname='$nickname'");
+					 		$myrow= mysqli_fetch_array($result);
+					 		echo '<form action="update.php" method="post" name="form"> 
+                <input name="first_name" type="varchar" size="20" maxlength="40" value='.$myrow['first_name'].'><br>
+                <input name="middle_name" type="varchar" size="20" maxlength="40" value='.$myrow['middle_name'].'><br>
+                <input name="last_name" type="varchar" size="20" maxlength="40" value='.$myrow['last_name'].'><br>
+                <input name="sex" type="varchar" size="20" maxlength="40" value='.$myrow['sex'].'><br>
+                <input name="birth_day" type="varchar" size="20" maxlength="40" value='.$myrow['birth_day'].'><br>
+                <input name="birth_month" type="varchar" size="20" maxlength="40" value='.$myrow['birth_month'].'><br>
+                <input name="birth_year" type="varchar" size="20" maxlength="40" value='.$myrow['birth_year'].'><br>
+                <input name="city" type="varchar" size="20" maxlength="40" value='.$myrow['city'].'><br>
+                <input name="country" type="varchar" size="20" maxlength="40" value='.$myrow['country'].'><br>
+                <input name="mother" type="varchar" size="20" maxlength="40" value='.$myrow['mother'].'><br>
+                <input name="father" type="varchar" size="20" maxlength="40" value='.$myrow['father'].'><br>
+                <input name="religion" type="varchar" size="20" maxlength="40" value='.$myrow['religion'].'><br>
+                <input name="political_views" type="varchar" size="20" maxlength="40" value='.$myrow['political_views'].'><br>
+<input name="submit" type="submit" value="занести информацию в базу">            
+</form>';
+					 		echo $myrow['first_name'].' '. $myrow['middle_name'].' '. $myrow['last_name']."<br>";
+					 		echo $myrow['sex']."<br>";
+					 		echo $myrow['birth_day'].'/'. $myrow['birth_month'].'/'. $myrow['birth_year']."<br>";
+					 		echo $myrow['city'].', '. $myrow['country']."<br>";
+					 		echo $myrow['mother']."<br>";
+					 		echo $myrow['father']."<br>";
+					 		echo $myrow['religion']."<br>";
+					 		echo $myrow['political_views']."<br>";
+						}
+						else
+						{
+						     echo'<span style="color: red; font-weight: bold;">fail</span>'; 
+						}
+					}
+					 while($myrow=mysqli_fetch_array($result));
+					 mysqli_close($link);
+
+				?>
+					<a href="/test/practice-6/profile/edit.php">Edit</a>
 				</div>
 				<div class="data-section">
 					Friends
 					DB tables
 				</div>
 			</div>
-			<?php include("./footer.php"); ?>
+			<?php include("../footer.php"); ?>
 		</div>
 	</body>
 </html>

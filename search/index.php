@@ -47,12 +47,14 @@
 			<?php include("../header.php"); ?>
 			<div id="asocialnetwork_content">
 				<div id="search-field">
-					search field
-					button
-					additional options
+					<form action="index.php" method="get" name="form">
+					 <input name="search_string" type="text" placeholder="Search.." size="20" maxlength="40" class="login-input-field">
+					<input name="submit" type="submit" value="Search" class="submit-button">   
+					</form>
 				</div>
 				<div id="search-results">
-					<div class="search-results-card">
+					
+					
 						<?php 
 					require_once '../connection.php';
 					$link = mysqli_connect($host, $user, $pass, $database) 
@@ -64,15 +66,19 @@
 					{
 						// $nickname=$_GET['nickname'];
 						// echo $_GET['nickname'];
+						$search_string='';
+						if(isset($_GET['search_string'])) { $search_string=$_GET['search_string']; } 
 						$result=mysqli_query($link,"SELECT * FROM person where nickname='$nickname'");
 					 	$myrow= mysqli_fetch_array($result);
 					 	$password_hash = $myrow['password'];
 						if(password_verify($password , $password_hash))
 						{
-							$result=mysqli_query($link,"SELECT * FROM person");
+							$result=mysqli_query($link,"SELECT * FROM person WHERE first_name LIKE '%$search_string%' or last_name LIKE '%$search_string%' or middle_name LIKE '%$search_string%'");
 					 		$myrow= mysqli_fetch_array($result);
+					 		
 						 		do{
-							 		echo $myrow['first_name']." ".$myrow['last_name']."<br>";
+						 			$user_nickname=$myrow['nickname'];
+							 		echo "<a href='../profile/index.php?nickname=$user_nickname'><div class='search-results-card'>".$myrow['first_name']." ".$myrow['middle_name']." ".$myrow['last_name']."</div></a>";
 							 	}
 						 	while($myrow=mysqli_fetch_array($result));
 						}
@@ -85,11 +91,7 @@
 					 mysqli_close($link);
 
 				?>
-						Photo
-						Name
-						Add button
-					</div>
-				</div>
+										</div>
 			</div>
 			<?php include("../footer.php"); ?>
 		</div>

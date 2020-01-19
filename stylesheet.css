@@ -1914,3 +1914,61 @@ table.dataTable tbody tr {
 	max-width: 1000px;
 	margin: 0 auto;
 }
+
+.tab {
+  overflow: hidden;
+  background-color: #dadada;
+}
+
+.tab button {
+  background-color: inherit;
+  float: left;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 14px 16px;
+  transition: 0.3s;
+}
+
+.tab button:hover {
+  background-color: #c0c4e0;
+}
+
+.tab button.active {
+  background-color: #c0c4e0;
+}
+
+.tablinks{
+	font-size: larger;
+}
+
+.tabcontent {
+  display: none;
+  padding: 6px 12px;
+  border-top: none;
+}
+
+.tabcontent.active{
+	display:block;
+}
+
+.submit-button{
+	height: 50px;
+    width: 150px;
+    font-size: larger;
+    background-color: #dadada;
+    border: 2px solid black;
+}
+
+.login-input-field{
+	height: 25px;
+    font-size: larger;
+    background-color: #dadada;
+    border: 2px solid black;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.login-input-label{
+    font-size: larger;
+}

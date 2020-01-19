@@ -8,6 +8,7 @@
 		<script src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js" integrity="sha384-NHtbx1Hf6ctHNdZmU28YfhGjB63gcU1YU64ttM+c0RxMKNBj67j+N/axpqTfdffo" crossorigin="anonymous" defer></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.min.js" integrity="sha384-nuT0qw6vBhqN718uyKaI6w1EXH49c5XiMUqmHEEiJadrKmJtmQOVVsd8vTgBpr8h" crossorigin="anonymous" defer></script>
 		<script type="text/javascript" src="/global/site-files/javascript.js" defer></script>
+		<script type="text/javascript" src="./javascript.js" defer></script>
 		<link rel="apple-touch-icon" sizes="57x57" href="/apple-touch-icon-57x57.png">
 		<link rel="apple-touch-icon" sizes="60x60" href="/apple-touch-icon-60x60.png">
 		<link rel="apple-touch-icon" sizes="72x72" href="/apple-touch-icon-72x72.png">
@@ -46,24 +47,28 @@
 			<?php include("./notification.php"); ?>
 			<?php include("./header.php"); ?>
 			<div id="asocialnetwork_content">
-				<div>
-					Sign up
+				<div class="tab">
+				  <button class="tablinks" onclick="loginTabsChange(event, 'login')">Log in</button>
+				  <button class="tablinks active" onclick="loginTabsChange(event, 'signup')">Sign up</button>
+				</div>
+				<div id="signup" class="tabcontent active">
+					<h2>Sign up</h2>
 					<form action="signup.php" method="post" name="form"> 
-					<label for="nickname">Nickname</label>
-					<input name="nickname" type="text" size="20" maxlength="40">
-					<label for="password">Password</label>
-					<input name="password" type="password" size="20" maxlength="40">
-					<input name="submit" type="submit" value="Sign up"> 
+					<label for="nickname" class="login-input-label">Nickname</label>
+					<input name="nickname" type="text" size="20" maxlength="40" class="login-input-field"><br>
+					<label for="password" class="login-input-label">Password</label>
+					<input name="password" type="password" size="20" maxlength="40" class="login-input-field"><br>
+					<input name="submit" type="submit" value="Sign up" class="submit-button"> 
 					</form>  
 				</div>
-				<div>
-					Log in
+				<div id="login" class="tabcontent">
+					<h2>Log in</h2>
 					<form action="login.php" method="post" name="form"> 
-					<label for="nickname">Nickname</label>
-					<input name="nickname" type="text" size="20" maxlength="40">
-					<label for="password">Password</label>
-					<input name="password" type="password" size="20" maxlength="40">
-					<input name="submit" type="submit" value="Log in">   
+					<label for="nickname" class="login-input-label">Nickname</label>
+					<input name="nickname" type="text" size="20" maxlength="40" class="login-input-field"><br>
+					<label for="password" class="login-input-label">Password</label>
+					<input name="password" type="password" size="20" maxlength="40" class="login-input-field"><br>
+					<input name="submit" type="submit" value="Log in" class="submit-button">   
 					</form>
 				</div>
 			</div>

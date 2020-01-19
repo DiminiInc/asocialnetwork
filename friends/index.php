@@ -8,6 +8,7 @@
 		<script src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js" integrity="sha384-NHtbx1Hf6ctHNdZmU28YfhGjB63gcU1YU64ttM+c0RxMKNBj67j+N/axpqTfdffo" crossorigin="anonymous" defer></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.min.js" integrity="sha384-nuT0qw6vBhqN718uyKaI6w1EXH49c5XiMUqmHEEiJadrKmJtmQOVVsd8vTgBpr8h" crossorigin="anonymous" defer></script>
 		<script type="text/javascript" src="/global/site-files/javascript.js" defer></script>
+		<script type="text/javascript" src="../javascript.js" defer></script>
 		<link rel="apple-touch-icon" sizes="57x57" href="/apple-touch-icon-57x57.png">
 		<link rel="apple-touch-icon" sizes="60x60" href="/apple-touch-icon-60x60.png">
 		<link rel="apple-touch-icon" sizes="72x72" href="/apple-touch-icon-72x72.png">
@@ -46,6 +47,117 @@
 			<?php include("../notification.php"); ?>
 			<?php include("../header.php"); ?>
 			<div id="asocialnetwork_content">
+				<div class="tab">
+				  <button class="tablinks active" onclick="loginTabsChange(event, 'friends')">Friends</button>
+				  <button class="tablinks" onclick="loginTabsChange(event, 'incoming')">Incoming requests</button>
+				  <button class="tablinks" onclick="loginTabsChange(event, 'outgoing')">Outgoing requests</button>
+				</div>
+				<div id="friends" class="tabcontent active">
+					<?php 
+					require_once '../connection.php';
+					$link = mysqli_connect($host, $user, $pass, $database) 
+					    or die("Error " . mysqli_error($link));
+					$link->set_charset("utf8");
+					$nickname=$_COOKIE["username"];
+					$password=$_COOKIE["password"];
+					if (!isset($_SESSION[$nickname]))
+					{
+						// $nickname=$_GET['nickname'];
+						// echo $_GET['nickname'];
+						$result=mysqli_query($link,"SELECT * FROM person where nickname='$nickname'");
+					 	$myrow= mysqli_fetch_array($result);
+					 	$password_hash = $myrow['password'];
+						if(password_verify($password , $password_hash))
+						{
+							$result=mysqli_query($link,"SELECT * FROM person WHERE id in (select CASE
+    WHEN person_1 in (SELECT id FROM person where nickname='$nickname')  THEN person_2
+    WHEN person_2 in (SELECT id FROM person where nickname='$nickname')  THEN person_1                               
+    ELSE 0
+END as p from relationship where status=1)");
+					 		$myrow= mysqli_fetch_array($result);
+						 		do{
+							 		echo $myrow['first_name']." ".$myrow['last_name']."<br>";
+							 	}
+						 	while($myrow=mysqli_fetch_array($result));
+						}
+						else
+						{
+						     echo'<span style="color: red; font-weight: bold;">fail</span>'; 
+						}
+					}
+					 
+					 mysqli_close($link);
+
+				?>
+				</div>
+				<div id="outgoing" class="tabcontent">
+					<?php 
+					require_once '../connection.php';
+					$link = mysqli_connect($host, $user, $pass, $database) 
+					    or die("Error " . mysqli_error($link));
+					$link->set_charset("utf8");
+					$nickname=$_COOKIE["username"];
+					$password=$_COOKIE["password"];
+					if (!isset($_SESSION[$nickname]))
+					{
+						// $nickname=$_GET['nickname'];
+						// echo $_GET['nickname'];
+						$result=mysqli_query($link,"SELECT * FROM person where nickname='$nickname'");
+					 	$myrow= mysqli_fetch_array($result);
+					 	$password_hash = $myrow['password'];
+						if(password_verify($password , $password_hash))
+						{
+							$result=mysqli_query($link,"SELECT * FROM person join relationship on person.id=person_2 where person_1 in (SELECT id FROM person where nickname='$nickname') and status=0");
+					 		$myrow= mysqli_fetch_array($result);
+						 		do{
+							 		echo $myrow['first_name']." ".$myrow['last_name']."<br>";
+							 	}
+						 	while($myrow=mysqli_fetch_array($result));
+						}
+						else
+						{
+						     echo'<span style="color: red; font-weight: bold;">fail</span>'; 
+						}
+					}
+					 
+					 mysqli_close($link);
+
+				?>
+				</div>
+				<div id="incoming" class="tabcontent">
+					<?php 
+					require_once '../connection.php';
+					$link = mysqli_connect($host, $user, $pass, $database) 
+					    or die("Error " . mysqli_error($link));
+					$link->set_charset("utf8");
+					$nickname=$_COOKIE["username"];
+					$password=$_COOKIE["password"];
+					if (!isset($_SESSION[$nickname]))
+					{
+						// $nickname=$_GET['nickname'];
+						// echo $_GET['nickname'];
+						$result=mysqli_query($link,"SELECT * FROM person where nickname='$nickname'");
+					 	$myrow= mysqli_fetch_array($result);
+					 	$password_hash = $myrow['password'];
+						if(password_verify($password , $password_hash))
+						{
+							$result=mysqli_query($link,"SELECT * FROM person join relationship on person.id=person_1 where person_2 in (SELECT id FROM person where nickname='$nickname') and status=0");
+					 		$myrow= mysqli_fetch_array($result);
+						 		do{
+							 		echo $myrow['first_name']." ".$myrow['last_name']."<br>";
+							 	}
+						 	while($myrow=mysqli_fetch_array($result));
+						}
+						else
+						{
+						     echo'<span style="color: red; font-weight: bold;">fail</span>'; 
+						}
+					}
+					 
+					 mysqli_close($link);
+
+				?>
+				</div>
 				<div id="search-field">
 					search field
 					button
@@ -64,12 +176,12 @@
 					{
 						// $nickname=$_GET['nickname'];
 						// echo $_GET['nickname'];
-						$result=mysqli_query($link,"SELECT * FROM users where nickname='$nickname'");
+						$result=mysqli_query($link,"SELECT * FROM person where nickname='$nickname'");
 					 	$myrow= mysqli_fetch_array($result);
 					 	$password_hash = $myrow['password'];
 						if(password_verify($password , $password_hash))
 						{
-							$result=mysqli_query($link,"SELECT * FROM users join person using(id)");
+							$result=mysqli_query($link,"SELECT * FROM person");
 					 		$myrow= mysqli_fetch_array($result);
 						 		do{
 							 		echo $myrow['first_name']." ".$myrow['last_name']."<br>";
@@ -85,9 +197,6 @@
 					 mysqli_close($link);
 
 				?>
-						Photo
-						Name
-						Add button
 					</div>
 				</div>
 			</div>

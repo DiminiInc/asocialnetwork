@@ -59,13 +59,13 @@
 					{
 						// $nickname=$_GET['nickname'];
 						// echo $_GET['nickname'];
-						$result=mysqli_query($link,"SELECT * FROM users where nickname='$nickname'");
+						$result=mysqli_query($link,"SELECT * FROM person where nickname='$nickname'");
 					 	$myrow= mysqli_fetch_array($result);
 					 	$password_hash = $myrow['password'];
 						if(password_verify($password , $password_hash))
 						{
-							$result=mysqli_query($link,"SELECT * FROM users join person using(id) where users.nickname='$nickname'");
-					 		$myrow= mysqli_fetch_array($result);
+							// $result=mysqli_query($link,"SELECT * FROM person");
+					 	// 	$myrow= mysqli_fetch_array($result);
 					 		echo '<form action="update.php" method="post" name="form"> 
                 <input name="first_name" type="varchar" size="20" maxlength="40" value='.$myrow['first_name'].'><br>
                 <input name="middle_name" type="varchar" size="20" maxlength="40" value='.$myrow['middle_name'].'><br>

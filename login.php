@@ -6,7 +6,7 @@ $link = mysqli_connect($host, $user, $pass, $database)
 $link->set_charset("utf8");
 $nickname=$_POST['nickname'];
 $password=$_POST['password'];
-$result=mysqli_query($link,"SELECT * FROM users where nickname='$nickname'");
+$result=mysqli_query($link,"SELECT * FROM person where nickname='$nickname'");
  $myrow= mysqli_fetch_array($result);
  $password_hash = $myrow['password'];
 if(password_verify($_POST['password'] , $password_hash))

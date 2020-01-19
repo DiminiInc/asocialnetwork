@@ -59,7 +59,7 @@
 					{
 						// $nickname=$_GET['nickname'];
 						// echo $_GET['nickname'];
-						$result=mysqli_query($link,"SELECT * FROM users where nickname='$nickname'");
+						$result=mysqli_query($link,"SELECT * FROM person where nickname='$nickname'");
 					 	$myrow= mysqli_fetch_array($result);
 					 	$password_hash = $myrow['password'];
 						if(password_verify($password , $password_hash))
@@ -77,10 +77,10 @@
 							if(isset($_POST['father'])) { $father=$_POST['father']; }
 							if(isset($_POST['religion'])) { $religion=$_POST['religion']; }
 							if(isset($_POST['political_views'])) { $political_views=$_POST['political_views']; }
-							$result=mysqli_query($link,"UPDATE person set last_name='$last_name',first_name='$first_name',middle_name='$middle_name',sex='$sex',birth_day='$birth_day', birth_month='$birth_month', birth_year='$birth_year', city='$city', country='$country', mother='$mother', father='$father', religion='$religion', political_views='$political_views' where id=(SELECT id FROM users where nickname='$nickname')");         
+							$result=mysqli_query($link,"UPDATE person set last_name='$last_name',first_name='$first_name',middle_name='$middle_name',sex='$sex',birth_day='$birth_day', birth_month='$birth_month', birth_year='$birth_year', city='$city', country='$country', mother='$mother', father='$father', religion='$religion', political_views='$political_views' where id=(SELECT id FROM person where nickname='$nickname')");         
  	if ($result=='true') { echo"Информация в базу успешно добавлена"; } 
 		else { echo'<span style="color: red; font-weight: bold;">Информация в базу не добавлена</span>'; } 
-							$result=mysqli_query($link,"SELECT * FROM users join person using(id) where users.nickname='$nickname'");
+							$result=mysqli_query($link,"SELECT * FROM person");
 					 		$myrow= mysqli_fetch_array($result);
 					 		echo $myrow['first_name'].' '. $myrow['middle_name'].' '. $myrow['last_name']."<br>";
 					 		echo $myrow['sex']."<br>";

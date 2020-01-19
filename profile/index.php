@@ -60,12 +60,12 @@
 							// $nickname=$_GET['nickname'];
 							// echo $_GET['nickname'];
 							if(isset($_GET['nickname'])) { $nickname=$_GET['nickname']; } 
-							$result=mysqli_query($link,"SELECT * FROM users where nickname='$nickname'");
+							$result=mysqli_query($link,"SELECT * FROM person where nickname='$nickname'");
 						 	$myrow= mysqli_fetch_array($result);
 						 	$password_hash = $myrow['password'];
 							if(password_verify($password , $password_hash))
 							{
-								$result=mysqli_query($link,"SELECT * FROM users join person using(id) where users.nickname='$nickname'");
+								$result=mysqli_query($link,"SELECT * FROM person where nickname='$nickname'");
 						 		$myrow= mysqli_fetch_array($result);
 						 		echo $myrow['first_name'].' '. $myrow['middle_name'].' '. $myrow['last_name']."<br>";
 						 		echo $myrow['sex']."<br>";
@@ -93,18 +93,18 @@
 							// $nickname=$_GET['nickname'];
 							// echo $_GET['nickname'];
 							if(isset($_GET['nickname'])) { $nickname=$_GET['nickname']; } 
-							if ((isset($_GET['nickname'])) && mysqli_fetch_array(mysqli_query($link,("SELECT * FROM users where nickname='$nickname_real'")))['role']=="admin" || $nickname==$nickname_real) 
+							if ((isset($_GET['nickname'])) && mysqli_fetch_array(mysqli_query($link,("SELECT * FROM person where nickname='$nickname_real'")))['role']=="admin" || $nickname==$nickname_real) 
 							{
-								if (mysqli_fetch_array(mysqli_query($link,("SELECT * FROM users where nickname='$nickname_real'")))['role']=="admin") 
+								if (mysqli_fetch_array(mysqli_query($link,("SELECT * FROM person where nickname='$nickname_real'")))['role']=="admin") 
 								{
 									echo "i'm admin";
 								}
-								$result=mysqli_query($link,"SELECT * FROM users where nickname='$nickname'");
+								$result=mysqli_query($link,"SELECT * FROM person where nickname='$nickname'");
 							 	$myrow= mysqli_fetch_array($result);
 							 	$password_hash = $myrow['password'];
 								if(password_verify($password , $password_hash))
 								{
-									$result=mysqli_query($link,"SELECT * FROM users join contacts on(users.id=contacts.owner) where users.nickname='$nickname'");
+									$result=mysqli_query($link,"SELECT * FROM person join contacts on(person.id=contacts.owner) where person.nickname='$nickname'");
 							 		$myrow= mysqli_fetch_array($result);
 							 		do
 							 		{

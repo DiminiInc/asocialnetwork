@@ -77,13 +77,13 @@ END as p from relationship where status=1)");
 					 		$myrow= mysqli_fetch_array($result);
 						 		do{
 							 		$user_nickname=$myrow['nickname'];
-							 		echo "<a href='../profile/index.php?nickname=$user_nickname'><div class='search-results-card'>".$myrow['first_name']." ".$myrow['middle_name']." ".$myrow['last_name']."</div></a>";
+							 		echo "<a href='../profile/index.php?nickname=$user_nickname'><div class='card'>".$myrow['first_name']." ".$myrow['middle_name']." ".$myrow['last_name']."</div></a>";
 							 	}
 						 	while($myrow=mysqli_fetch_array($result));
 						}
 						else
 						{
-						     echo'<span style="color: red; font-weight: bold;">fail</span>'; 
+						     echo'<span style="color: red; font-weight: bold;">Please authorize</span>'; 
 						}
 					}
 					 
@@ -112,13 +112,13 @@ END as p from relationship where status=1)");
 					 		$myrow= mysqli_fetch_array($result);
 						 		do{
 							 		$user_nickname=$myrow['nickname'];
-							 		echo "<a href='../profile/index.php?nickname=$user_nickname'><div class='search-results-card'>".$myrow['first_name']." ".$myrow['middle_name']." ".$myrow['last_name']."</div></a>";
+							 		echo "<a href='../profile/index.php?nickname=$user_nickname'><div class='card'>".$myrow['first_name']." ".$myrow['middle_name']." ".$myrow['last_name']."</div></a>";
 							 	}
 						 	while($myrow=mysqli_fetch_array($result));
 						}
 						else
 						{
-						     echo'<span style="color: red; font-weight: bold;">fail</span>'; 
+						     echo'<span style="color: red; font-weight: bold;">Please authorize</span>'; 
 						}
 					}
 					 
@@ -147,13 +147,13 @@ END as p from relationship where status=1)");
 					 		$myrow= mysqli_fetch_array($result);
 						 		do{
 							 		$user_nickname=$myrow['nickname'];
-							 		echo "<a href='../profile/index.php?nickname=$user_nickname'><div class='search-results-card'>".$myrow['first_name']." ".$myrow['middle_name']." ".$myrow['last_name']."</div></a>";
+							 		echo "<a href='../profile/index.php?nickname=$user_nickname'><div class='card'>".$myrow['first_name']." ".$myrow['middle_name']." ".$myrow['last_name']."</div></a>";
 							 	}
 						 	while($myrow=mysqli_fetch_array($result));
 						}
 						else
 						{
-						     echo'<span style="color: red; font-weight: bold;">fail</span>'; 
+						     echo'<span style="color: red; font-weight: bold;">Please authorize</span>'; 
 						}
 					}
 					 

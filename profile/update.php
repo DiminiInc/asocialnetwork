@@ -73,27 +73,23 @@
 							if(isset($_POST['birth_year'])) { $birth_year=$_POST['birth_year']; }
 							if(isset($_POST['city'])) { $city=$_POST['city']; }
 							if(isset($_POST['country'])) { $country=$_POST['country']; }
-							if(isset($_POST['mother'])) { $mother=$_POST['mother']; }
-							if(isset($_POST['father'])) { $father=$_POST['father']; }
 							if(isset($_POST['religion'])) { $religion=$_POST['religion']; }
 							if(isset($_POST['political_views'])) { $political_views=$_POST['political_views']; }
-							$result=mysqli_query($link,"UPDATE person set last_name='$last_name',first_name='$first_name',middle_name='$middle_name',sex='$sex',birth_day='$birth_day', birth_month='$birth_month', birth_year='$birth_year', city='$city', country='$country', mother='$mother', father='$father', religion='$religion', political_views='$political_views' where id=(SELECT id FROM person where nickname='$nickname')");         
- 	if ($result=='true') { echo"Информация в базу успешно добавлена"; } 
-		else { echo'<span style="color: red; font-weight: bold;">Информация в базу не добавлена</span>'; } 
-							$result=mysqli_query($link,"SELECT * FROM person");
+							$result=mysqli_query($link,"UPDATE person set last_name='$last_name',first_name='$first_name',middle_name='$middle_name',sex='$sex',birth_day='$birth_day', birth_month='$birth_month', birth_year='$birth_year', city='$city', country='$country', religion='$religion', political_views='$political_views' where id=(SELECT id FROM person where nickname='$nickname')");         
+ 	if ($result=='true') { echo"OK"; } 
+		else { echo'<span style="color: red; font-weight: bold;">Something went wrong</span>'; } 
+							$result=mysqli_query($link,"SELECT * FROM person where id=(SELECT id FROM person where nickname='$nickname')");
 					 		$myrow= mysqli_fetch_array($result);
 					 		echo $myrow['first_name'].' '. $myrow['middle_name'].' '. $myrow['last_name']."<br>";
 					 		echo $myrow['sex']."<br>";
 					 		echo $myrow['birth_day'].'/'. $myrow['birth_month'].'/'. $myrow['birth_year']."<br>";
 					 		echo $myrow['city'].', '. $myrow['country']."<br>";
-					 		echo $myrow['mother']."<br>";
-					 		echo $myrow['father']."<br>";
 					 		echo $myrow['religion']."<br>";
 					 		echo $myrow['political_views']."<br>";
 						}
 						else
 						{
-						     echo'<span style="color: red; font-weight: bold;">fail</span>'; 
+						     echo'<span style="color: red; font-weight: bold;">Please authorize</span>'; 
 						}
 					}
 					 while($myrow=mysqli_fetch_array($result));

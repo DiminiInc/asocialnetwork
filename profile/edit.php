@@ -67,33 +67,29 @@
 							// $result=mysqli_query($link,"SELECT * FROM person");
 					 	// 	$myrow= mysqli_fetch_array($result);
 					 		echo '<form action="update.php" method="post" name="form"> 
-                <input name="first_name" type="varchar" size="20" maxlength="40" value='.$myrow['first_name'].'><br>
-                <input name="middle_name" type="varchar" size="20" maxlength="40" value='.$myrow['middle_name'].'><br>
-                <input name="last_name" type="varchar" size="20" maxlength="40" value='.$myrow['last_name'].'><br>
-                <input name="sex" type="varchar" size="20" maxlength="40" value='.$myrow['sex'].'><br>
-                <input name="birth_day" type="varchar" size="20" maxlength="40" value='.$myrow['birth_day'].'><br>
-                <input name="birth_month" type="varchar" size="20" maxlength="40" value='.$myrow['birth_month'].'><br>
-                <input name="birth_year" type="varchar" size="20" maxlength="40" value='.$myrow['birth_year'].'><br>
-                <input name="city" type="varchar" size="20" maxlength="40" value='.$myrow['city'].'><br>
-                <input name="country" type="varchar" size="20" maxlength="40" value='.$myrow['country'].'><br>
-                <input name="mother" type="varchar" size="20" maxlength="40" value='.$myrow['mother'].'><br>
-                <input name="father" type="varchar" size="20" maxlength="40" value='.$myrow['father'].'><br>
-                <input name="religion" type="varchar" size="20" maxlength="40" value='.$myrow['religion'].'><br>
-                <input name="political_views" type="varchar" size="20" maxlength="40" value='.$myrow['political_views'].'><br>
-<input name="submit" type="submit" value="занести информацию в базу">            
+                First name: <input name="first_name" type="varchar" size="20" maxlength="40" value='.$myrow['first_name'].'><br>
+                Middle name: <input name="middle_name" type="varchar" size="20" maxlength="40" value='.$myrow['middle_name'].'><br>
+                Last name: <input name="last_name" type="varchar" size="20" maxlength="40" value='.$myrow['last_name'].'><br>
+                Sex: <input name="sex" type="varchar" size="20" maxlength="40" value='.$myrow['sex'].'><br>
+                Birth day: <input name="birth_day" type="varchar" size="20" maxlength="40" value='.$myrow['birth_day'].'><br>
+                Birth month: <input name="birth_month" type="varchar" size="20" maxlength="40" value='.$myrow['birth_month'].'><br>
+                Birth year: <input name="birth_year" type="varchar" size="20" maxlength="40" value='.$myrow['birth_year'].'><br>
+                City: <input name="city" type="varchar" size="20" maxlength="40" value='.$myrow['city'].'><br>
+                Country: <input name="country" type="varchar" size="20" maxlength="40" value='.$myrow['country'].'><br>
+                Religion: <input name="religion" type="varchar" size="20" maxlength="40" value='.$myrow['religion'].'><br>
+                Political views: <input name="political_views" type="varchar" size="20" maxlength="40" value='.$myrow['political_views'].'><br>
+<input name="submit" type="submit" value="Update data">            
 </form>';
 					 		echo $myrow['first_name'].' '. $myrow['middle_name'].' '. $myrow['last_name']."<br>";
 					 		echo $myrow['sex']."<br>";
 					 		echo $myrow['birth_day'].'/'. $myrow['birth_month'].'/'. $myrow['birth_year']."<br>";
 					 		echo $myrow['city'].', '. $myrow['country']."<br>";
-					 		echo $myrow['mother']."<br>";
-					 		echo $myrow['father']."<br>";
 					 		echo $myrow['religion']."<br>";
 					 		echo $myrow['political_views']."<br>";
 						}
 						else
 						{
-						     echo'<span style="color: red; font-weight: bold;">fail</span>'; 
+						     echo'<span style="color: red; font-weight: bold;">Please authorize</span>'; 
 						}
 					}
 					 while($myrow=mysqli_fetch_array($result));

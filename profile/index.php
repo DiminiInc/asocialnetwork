@@ -67,23 +67,23 @@
 							{
 								$result=mysqli_query($link,"SELECT * FROM person where nickname='$nickname'");
 						 		$myrow= mysqli_fetch_array($result);
-						 		echo $myrow['first_name'].' '. $myrow['middle_name'].' '. $myrow['last_name']."<br>";
-						 		echo $myrow['sex']."<br>";
-						 		echo $myrow['birth_day'].'/'. $myrow['birth_month'].'/'. $myrow['birth_year']."<br>";
-						 		echo $myrow['city'].', '. $myrow['country']."<br>";
-						 		echo $myrow['mother']."<br>";
-						 		echo $myrow['father']."<br>";
-						 		echo $myrow['religion']."<br>";
-						 		echo $myrow['political_views']."<br>";
+						 		echo "<div class='card'>";
+						 		echo "<h2>".$myrow['first_name'].' '. $myrow['middle_name'].' '. $myrow['last_name']."</h2>";
+						 		echo "Sex: ".$myrow['sex']."<br>";
+						 		echo "Birthday: ".$myrow['birth_day'].'/'. $myrow['birth_month'].'/'. $myrow['birth_year']."<br>";
+						 		echo "Location: ".$myrow['city'].', '. $myrow['country']."<br>";
+						 		echo "Religion: ".$myrow['religion']."<br>";
+						 		echo "Political views: ".$myrow['political_views']."<br>";
+						 		echo "</div>";
 							}
 							else
 							{
-							     echo'<span style="color: red; font-weight: bold;">fail</span>'; 
+							     echo'<span style="color: red; font-weight: bold;">Please authorize</span>'; 
 							}
 						}
 						while($myrow=mysqli_fetch_array($result));
 					?>
-					<a href="/test/practice-6/profile/edit.php">Edit</a>
+					<a class="standard-button" href="/test/practice-6/profile/edit.php">Edit</a>
 				</div>
 				<div class="data-section">
 					<?php 
@@ -106,15 +106,17 @@
 								{
 									$result=mysqli_query($link,"SELECT * FROM person join contacts on(person.id=contacts.owner) where person.nickname='$nickname'");
 							 		$myrow= mysqli_fetch_array($result);
+							 		echo "<div class='card'>";
 							 		do
 							 		{
 							 			echo $myrow['account'].': '. $myrow['account_id']."<br>";
 							 		}
 									while($myrow=mysqli_fetch_array($result));
+									echo "</div>";
 								}
 								else
 								{
-								     echo'<span style="color: red; font-weight: bold;">fail</span>'; 
+								     echo'<span style="color: red; font-weight: bold;">Please authorize</span>'; 
 								}
 							}
 						}

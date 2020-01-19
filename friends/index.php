@@ -76,7 +76,8 @@
 END as p from relationship where status=1)");
 					 		$myrow= mysqli_fetch_array($result);
 						 		do{
-							 		echo $myrow['first_name']." ".$myrow['last_name']."<br>";
+							 		$user_nickname=$myrow['nickname'];
+							 		echo "<a href='../profile/index.php?nickname=$user_nickname'><div class='search-results-card'>".$myrow['first_name']." ".$myrow['middle_name']." ".$myrow['last_name']."</div></a>";
 							 	}
 						 	while($myrow=mysqli_fetch_array($result));
 						}
@@ -110,7 +111,8 @@ END as p from relationship where status=1)");
 							$result=mysqli_query($link,"SELECT * FROM person join relationship on person.id=person_2 where person_1 in (SELECT id FROM person where nickname='$nickname') and status=0");
 					 		$myrow= mysqli_fetch_array($result);
 						 		do{
-							 		echo $myrow['first_name']." ".$myrow['last_name']."<br>";
+							 		$user_nickname=$myrow['nickname'];
+							 		echo "<a href='../profile/index.php?nickname=$user_nickname'><div class='search-results-card'>".$myrow['first_name']." ".$myrow['middle_name']." ".$myrow['last_name']."</div></a>";
 							 	}
 						 	while($myrow=mysqli_fetch_array($result));
 						}
@@ -144,7 +146,8 @@ END as p from relationship where status=1)");
 							$result=mysqli_query($link,"SELECT * FROM person join relationship on person.id=person_1 where person_2 in (SELECT id FROM person where nickname='$nickname') and status=0");
 					 		$myrow= mysqli_fetch_array($result);
 						 		do{
-							 		echo $myrow['first_name']." ".$myrow['last_name']."<br>";
+							 		$user_nickname=$myrow['nickname'];
+							 		echo "<a href='../profile/index.php?nickname=$user_nickname'><div class='search-results-card'>".$myrow['first_name']." ".$myrow['middle_name']." ".$myrow['last_name']."</div></a>";
 							 	}
 						 	while($myrow=mysqli_fetch_array($result));
 						}
@@ -157,47 +160,6 @@ END as p from relationship where status=1)");
 					 mysqli_close($link);
 
 				?>
-				</div>
-				<div id="search-field">
-					search field
-					button
-					additional options
-				</div>
-				<div id="search-results">
-					<div class="search-results-card">
-						<?php 
-					require_once '../connection.php';
-					$link = mysqli_connect($host, $user, $pass, $database) 
-					    or die("Error " . mysqli_error($link));
-					$link->set_charset("utf8");
-					$nickname=$_COOKIE["username"];
-					$password=$_COOKIE["password"];
-					if (!isset($_SESSION[$nickname]))
-					{
-						// $nickname=$_GET['nickname'];
-						// echo $_GET['nickname'];
-						$result=mysqli_query($link,"SELECT * FROM person where nickname='$nickname'");
-					 	$myrow= mysqli_fetch_array($result);
-					 	$password_hash = $myrow['password'];
-						if(password_verify($password , $password_hash))
-						{
-							$result=mysqli_query($link,"SELECT * FROM person");
-					 		$myrow= mysqli_fetch_array($result);
-						 		do{
-							 		echo $myrow['first_name']." ".$myrow['last_name']."<br>";
-							 	}
-						 	while($myrow=mysqli_fetch_array($result));
-						}
-						else
-						{
-						     echo'<span style="color: red; font-weight: bold;">fail</span>'; 
-						}
-					}
-					 
-					 mysqli_close($link);
-
-				?>
-					</div>
 				</div>
 			</div>
 			<?php include("../footer.php"); ?>

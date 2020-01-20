@@ -77,6 +77,7 @@ END as p from relationship where status=1)");
 					 		$myrow= mysqli_fetch_array($result);
 						 		do{
 							 		$user_nickname=$myrow['nickname'];
+									if ($user_nickname)
 							 		echo "<a href='../profile/index.php?nickname=$user_nickname'><div class='card'>".$myrow['first_name']." ".$myrow['middle_name']." ".$myrow['last_name']."</div></a>";
 							 	}
 						 	while($myrow=mysqli_fetch_array($result));
@@ -112,6 +113,7 @@ END as p from relationship where status=1)");
 					 		$myrow= mysqli_fetch_array($result);
 						 		do{
 							 		$user_nickname=$myrow['nickname'];
+							 		if ($user_nickname)
 							 		echo "<a href='../profile/index.php?nickname=$user_nickname'><div class='card'>".$myrow['first_name']." ".$myrow['middle_name']." ".$myrow['last_name']."</div></a>";
 							 	}
 						 	while($myrow=mysqli_fetch_array($result));
@@ -147,6 +149,7 @@ END as p from relationship where status=1)");
 					 		$myrow= mysqli_fetch_array($result);
 						 		do{
 							 		$user_nickname=$myrow['nickname'];
+							 		if ($user_nickname)
 							 		echo "<a href='../profile/index.php?nickname=$user_nickname'><div class='card'>".$myrow['first_name']." ".$myrow['middle_name']." ".$myrow['last_name']."</div></a>";
 							 	}
 						 	while($myrow=mysqli_fetch_array($result));

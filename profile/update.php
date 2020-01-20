@@ -75,7 +75,7 @@
 							if(isset($_POST['country'])) { $country=$_POST['country']; }
 							if(isset($_POST['religion'])) { $religion=$_POST['religion']; }
 							if(isset($_POST['political_views'])) { $political_views=$_POST['political_views']; }
-							$result=mysqli_query($link,"UPDATE person set last_name='$last_name',first_name='$first_name',middle_name='$middle_name',sex='$sex',birth_day='$birth_day', birth_month='$birth_month', birth_year='$birth_year', city='$city', country='$country', religion='$religion', political_views='$political_views' where id=(SELECT id FROM person where nickname='$nickname')");         
+							$result=mysqli_query($link,"UPDATE person set last_name='$last_name',first_name='$first_name',middle_name='$middle_name',sex='$sex',birth_day='$birth_day', birth_month='$birth_month', birth_year='$birth_year', city='$city', country='$country', religion='$religion', political_views='$political_views' where  nickname='$nickname'");         
  	if ($result=='true') { echo"OK"; } 
 		else { echo'<span style="color: red; font-weight: bold;">Something went wrong</span>'; } 
 							$result=mysqli_query($link,"SELECT * FROM person where id=(SELECT id FROM person where nickname='$nickname')");

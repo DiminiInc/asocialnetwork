@@ -55,6 +55,9 @@
 						$link->set_charset("utf8");
 						$nickname=$_COOKIE["username"];
 						$password=$_COOKIE["password"];
+						$nickname_real=$_COOKIE["username"];
+						$myrow= mysqli_fetch_array(mysqli_query($link,("SELECT status FROM relationship where (((person_1 in (select id from person where nickname='$nickname_real')) and (person_2 in (select id from person where nickname='$nickname'))) or ((person_2 in (select id from person where nickname='$nickname')) and (person_1 in (select id from person where nickname='$nickname_real'))))")));
+						$status=$myrow['status'];
 						if (!isset($_SESSION[$nickname]))
 						{
 							// $nickname=$_GET['nickname'];
@@ -67,9 +70,13 @@
 							{
 								$result=mysqli_query($link,"SELECT * FROM person where nickname='$nickname'");
 						 		$myrow= mysqli_fetch_array($result);
+						 		if ($myrow['sex']==1)
+						 			$sex="Male";
+						 		else
+						 			$sex="Female";
 						 		echo "<div class='card'>";
 						 		echo "<h2>".$myrow['first_name'].' '. $myrow['middle_name'].' '. $myrow['last_name']."</h2>";
-						 		echo "Sex: ".$myrow['sex']."<br>";
+						 		echo "Sex: ".$sex."<br>";
 						 		echo "Birthday: ".$myrow['birth_day'].'/'. $myrow['birth_month'].'/'. $myrow['birth_year']."<br>";
 						 		echo "Location: ".$myrow['city'].', '. $myrow['country']."<br>";
 						 		echo "Religion: ".$myrow['religion']."<br>";
@@ -82,23 +89,32 @@
 							}
 						}
 						while($myrow=mysqli_fetch_array($result));
+						if ($nickname==$nickname_real){
+						echo '<a class="standard-button" href="/test/practice-6/profile/edit.php">Edit</a>';
+					} else {
+							if ($status==1){
+echo'<a class="standard-button" href="/test/practice-6/profile/edit.php">Remove friend</a>';
+							} elseif ($status==0) {
+								echo'<a class="standard-button" href="/test/practice-6/profile/edit.php">Accept request</a>
+					<a class="standard-button" href="/test/practice-6/profile/edit.php">Deny request</a>';
+						} else {
+							echo'<a class="standard-button" href="/test/practice-6/profile/edit.php">Send request</a>';
+						}
+					}
 					?>
-					<a class="standard-button" href="/test/practice-6/profile/edit.php">Edit</a>
+
+					
 				</div>
 				<div class="data-section">
 					<?php 
-						$nickname_real=$_COOKIE["username"];
 						if (!isset($_SESSION[$nickname]))
 						{
 							// $nickname=$_GET['nickname'];
 							// echo $_GET['nickname'];
 							if(isset($_GET['nickname'])) { $nickname=$_GET['nickname']; } 
-							if ((isset($_GET['nickname'])) && mysqli_fetch_array(mysqli_query($link,("SELECT * FROM person where nickname='$nickname_real'")))['role']=="admin" || $nickname==$nickname_real) 
+							$myrow= mysqli_fetch_array(mysqli_query($link,("SELECT status FROM relationship where (((person_1 in (select id from person where nickname='$nickname_real')) and (person_2 in (select id from person where nickname='$nickname'))) or ((person_2 in (select id from person where nickname='$nickname')) and (person_1 in (select id from person where nickname='$nickname_real'))))")));
+							if ((isset($_GET['nickname'])) && mysqli_fetch_array(mysqli_query($link,("SELECT * FROM person where nickname='$nickname_real'")))['role']=="admin" || $nickname==$nickname_real || $status) 
 							{
-								if (mysqli_fetch_array(mysqli_query($link,("SELECT * FROM person where nickname='$nickname_real'")))['role']=="admin") 
-								{
-									echo "i'm admin";
-								}
 								$result=mysqli_query($link,"SELECT * FROM person where nickname='$nickname'");
 							 	$myrow= mysqli_fetch_array($result);
 							 	$password_hash = $myrow['password'];

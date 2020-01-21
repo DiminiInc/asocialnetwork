@@ -100,11 +100,18 @@
 					} else {
 						if(isset($_GET['nickname'])) { $nickname=$_GET['nickname']; } 
 						$myrow= mysqli_fetch_array(mysqli_query($link,("SELECT status FROM relationship where (((person_1 in (select id from person where nickname='$nickname_real')) and (person_2 in (select id from person where nickname='$nickname'))) or ((person_2 in (select id from person where nickname='$nickname_real')) and (person_1 in (select id from person where nickname='$nickname'))))")));
-							if ($myrow['status']===1){
+							if ($myrow['status']==2){
 echo'<a class="standard-button" href="/test/practice-6/friends/remove.php?friend_nickname='.$nickname.'">Remove friend</a>';
-							} elseif ($myrow['status']===0) {
+							} elseif ($myrow['status']==1) {
+								$myrow= mysqli_fetch_array(mysqli_query($link,("SELECT status FROM relationship where (((person_1 in (select id from person where nickname='$nickname_real')) and (person_2 in (select id from person where nickname='$nickname'))))")));
+								if ($myrow['status']==1) {
+								echo'<a class="standard-button" href="/test/practice-6/friends/remove.php?friend_nickname='.$nickname.'">Cancel request</a>';
+				} else {
+					
 								echo'<a class="standard-button" href="/test/practice-6/friends/add.php?friend_nickname='.$nickname.'">Accept request</a>
-					<a class="standard-button" href="/test/practice-6/friends/remove.php?friend_nickname='.$nickname.'">Deny request</a>';
+					<a class="standard-button" href="/test/practice-6/friends/remove.php?friend_nickname='.$nickname.'">Cancel request</a>';
+				
+				}
 						} else {
 							echo'<a class="standard-button" href="/test/practice-6/friends/request.php?friend_nickname='.$nickname.'">Send request</a>';
 						}
@@ -120,8 +127,8 @@ echo'<a class="standard-button" href="/test/practice-6/friends/remove.php?friend
 							// $nickname=$_GET['nickname'];
 							// echo $_GET['nickname'];
 							if(isset($_GET['nickname'])) { $nickname=$_GET['nickname']; } 
-							$myrow= mysqli_fetch_array(mysqli_query($link,("SELECT status FROM relationship where (((person_1 in (select id from person where nickname='$nickname_real')) and (person_2 in (select id from person where nickname='$nickname'))) or ((person_2 in (select id from person where nickname='$nickname')) and (person_1 in (select id from person where nickname='$nickname_real'))))")));
-							if ((isset($_GET['nickname'])) && mysqli_fetch_array(mysqli_query($link,("SELECT * FROM person where nickname='$nickname_real'")))['role']=="admin" || $nickname==$nickname_real || $myrow['status']) 
+							$myrow= mysqli_fetch_array(mysqli_query($link,("SELECT status FROM relationship where (((person_1 in (select id from person where nickname='$nickname')) and (person_2 in (select id from person where nickname='$nickname_real'))) or ((person_2 in (select id from person where nickname='$nickname')) and (person_1 in (select id from person where nickname='$nickname_real'))))")));
+							if ((isset($_GET['nickname'])) && mysqli_fetch_array(mysqli_query($link,("SELECT * FROM person where nickname='$nickname_real'")))['role']=="admin" || $nickname==$nickname_real || $myrow['status']==2) 
 							{
 								$result=mysqli_query($link,"SELECT * FROM person where nickname='$nickname'");
 							 	$myrow= mysqli_fetch_array($result);

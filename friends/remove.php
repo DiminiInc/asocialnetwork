@@ -15,7 +15,7 @@
 					 	if(isset($_GET['friend_nickname'])) { $friend_nickname=$_GET['friend_nickname']; } 
 						if(password_verify($password , $password_hash))
 						{
-							$result=mysqli_query($link,"DELETE FROM relationship where (((person_1 in (select id from person where nickname='$nickname_real')) and (person_2 in (select id from person where nickname='$nickname'))) or ((person_2 in (select id from person where nickname='$nickname_real')) and (person_1 in (select id from person where nickname='$nickname'))))");         
+							$result=mysqli_query($link,"DELETE FROM relationship where (((person_1 in (select id from person where nickname='$friend_nickname')) and (person_2 in (select id from person where nickname='$nickname'))) or ((person_2 in (select id from person where nickname='$friend_nickname')) and (person_1 in (select id from person where nickname='$nickname'))))");         
  	if ($result=='true') { echo'<span style="color: red; font-weight: bold;">OK</span>'; 
      $url = '../profile/index.php?nickname='.$friend_nickname;
     ob_start();

@@ -73,7 +73,7 @@
     WHEN person_1 in (SELECT id FROM person where nickname='$nickname')  THEN person_2
     WHEN person_2 in (SELECT id FROM person where nickname='$nickname')  THEN person_1                               
     ELSE 0
-END as p from relationship where status=1)");
+END as p from relationship where status=2)");
 					 		$myrow= mysqli_fetch_array($result);
 						 		do{
 							 		$user_nickname=$myrow['nickname'];
@@ -109,7 +109,7 @@ END as p from relationship where status=1)");
 					 	$password_hash = $myrow['password'];
 						if(password_verify($password , $password_hash))
 						{
-							$result=mysqli_query($link,"SELECT * FROM person join relationship on person.id=person_2 where person_1 in (SELECT id FROM person where nickname='$nickname') and status=0");
+							$result=mysqli_query($link,"SELECT * FROM person join relationship on person.id=person_2 where person_1 in (SELECT id FROM person where nickname='$nickname') and status=1");
 					 		$myrow= mysqli_fetch_array($result);
 						 		do{
 							 		$user_nickname=$myrow['nickname'];
@@ -145,7 +145,7 @@ END as p from relationship where status=1)");
 					 	$password_hash = $myrow['password'];
 						if(password_verify($password , $password_hash))
 						{
-							$result=mysqli_query($link,"SELECT * FROM person join relationship on person.id=person_1 where person_2 in (SELECT id FROM person where nickname='$nickname') and status=0");
+							$result=mysqli_query($link,"SELECT * FROM person join relationship on person.id=person_1 where person_2 in (SELECT id FROM person where nickname='$nickname') and status=1");
 					 		$myrow= mysqli_fetch_array($result);
 						 		do{
 							 		$user_nickname=$myrow['nickname'];

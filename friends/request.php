@@ -15,7 +15,7 @@
 					 	if(isset($_GET['friend_nickname'])) { $friend_nickname=$_GET['friend_nickname']; } 
 						if(password_verify($password , $password_hash))
 						{
-							$result=mysqli_query($link,"INSERT INTO relationship (person_1, person_2, status)VALUES ((SELECT id FROM person where nickname='$nickname'),(SELECT id FROM person where nickname='$friend_nickname'),0)");         
+							$result=mysqli_query($link,"INSERT INTO relationship (person_1, person_2, status)VALUES ((SELECT id FROM person where nickname='$nickname'),(SELECT id FROM person where nickname='$friend_nickname'),1)");         
  	if ($result=='true') { echo'<span style="color: red; font-weight: bold;">OK</span>'; 
      $url = '../profile/index.php?nickname='.$friend_nickname;
     ob_start();

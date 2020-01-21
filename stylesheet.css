@@ -1996,3 +1996,8 @@ a{
     display: inline-block;
     text-align: center;
 }
+
+.right-aligned-form {
+	width: 500px;
+    text-align: right;
+}

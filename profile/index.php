@@ -58,6 +58,7 @@
 						$nickname_real=$_COOKIE["username"];
 						$myrow= mysqli_fetch_array(mysqli_query($link,("SELECT status FROM relationship where (((person_1 in (select id from person where nickname='$nickname_real')) and (person_2 in (select id from person where nickname='$nickname'))) or ((person_2 in (select id from person where nickname='$nickname')) and (person_1 in (select id from person where nickname='$nickname_real'))))")));
 						$status=$myrow['status'];
+						echo $status;
 						if (!isset($_SESSION[$nickname]))
 						{
 							// $nickname=$_GET['nickname'];
@@ -76,10 +77,15 @@
 						 			$sex="Female";
 						 		echo "<div class='card'>";
 						 		echo "<h2>".$myrow['first_name'].' '. $myrow['middle_name'].' '. $myrow['last_name']."</h2>";
+						 		if (!is_null($myrow['sex']))
 						 		echo "Sex: ".$sex."<br>";
+						 		if ($myrow['birth_day'] or $myrow['birth_month'] or $myrow['birth_year'])
 						 		echo "Birthday: ".$myrow['birth_day'].'/'. $myrow['birth_month'].'/'. $myrow['birth_year']."<br>";
+						 	if ($myrow['city'] or $myrow['country'])
 						 		echo "Location: ".$myrow['city'].', '. $myrow['country']."<br>";
+						 		if ($myrow['religion'])
 						 		echo "Religion: ".$myrow['religion']."<br>";
+						 	if ($myrow['political_views'])
 						 		echo "Political views: ".$myrow['political_views']."<br>";
 						 		echo "</div>";
 							}
@@ -92,13 +98,15 @@
 						if ($nickname==$nickname_real){
 						echo '<a class="standard-button" href="/test/practice-6/profile/edit.php">Edit</a>';
 					} else {
-							if ($status==1){
-echo'<a class="standard-button" href="/test/practice-6/profile/edit.php">Remove friend</a>';
-							} elseif ($status==0) {
-								echo'<a class="standard-button" href="/test/practice-6/profile/edit.php">Accept request</a>
-					<a class="standard-button" href="/test/practice-6/profile/edit.php">Deny request</a>';
+						if(isset($_GET['nickname'])) { $nickname=$_GET['nickname']; } 
+						$myrow= mysqli_fetch_array(mysqli_query($link,("SELECT status FROM relationship where (((person_1 in (select id from person where nickname='$nickname_real')) and (person_2 in (select id from person where nickname='$nickname'))) or ((person_2 in (select id from person where nickname='$nickname_real')) and (person_1 in (select id from person where nickname='$nickname'))))")));
+							if ($myrow['status']===1){
+echo'<a class="standard-button" href="/test/practice-6/friends/remove.php?friend_nickname='.$nickname.'">Remove friend</a>';
+							} elseif ($myrow['status']===0) {
+								echo'<a class="standard-button" href="/test/practice-6/friends/add.php?friend_nickname='.$nickname.'">Accept request</a>
+					<a class="standard-button" href="/test/practice-6/friends/remove.php?friend_nickname='.$nickname.'">Deny request</a>';
 						} else {
-							echo'<a class="standard-button" href="/test/practice-6/profile/edit.php">Send request</a>';
+							echo'<a class="standard-button" href="/test/practice-6/friends/request.php?friend_nickname='.$nickname.'">Send request</a>';
 						}
 					}
 					?>
@@ -113,7 +121,7 @@ echo'<a class="standard-button" href="/test/practice-6/profile/edit.php">Remove 
 							// echo $_GET['nickname'];
 							if(isset($_GET['nickname'])) { $nickname=$_GET['nickname']; } 
 							$myrow= mysqli_fetch_array(mysqli_query($link,("SELECT status FROM relationship where (((person_1 in (select id from person where nickname='$nickname_real')) and (person_2 in (select id from person where nickname='$nickname'))) or ((person_2 in (select id from person where nickname='$nickname')) and (person_1 in (select id from person where nickname='$nickname_real'))))")));
-							if ((isset($_GET['nickname'])) && mysqli_fetch_array(mysqli_query($link,("SELECT * FROM person where nickname='$nickname_real'")))['role']=="admin" || $nickname==$nickname_real || $status) 
+							if ((isset($_GET['nickname'])) && mysqli_fetch_array(mysqli_query($link,("SELECT * FROM person where nickname='$nickname_real'")))['role']=="admin" || $nickname==$nickname_real || $myrow['status']) 
 							{
 								$result=mysqli_query($link,"SELECT * FROM person where nickname='$nickname'");
 							 	$myrow= mysqli_fetch_array($result);
@@ -125,6 +133,7 @@ echo'<a class="standard-button" href="/test/practice-6/profile/edit.php">Remove 
 							 		echo "<div class='card'>";
 							 		do
 							 		{
+							 			if ($myrow['account'] or $myrow['account_id']) 
 							 			echo $myrow['account'].': '. $myrow['account_id']."<br>";
 							 		}
 									while($myrow=mysqli_fetch_array($result));

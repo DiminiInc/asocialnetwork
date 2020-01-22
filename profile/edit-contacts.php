@@ -8,6 +8,7 @@
 	<script src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js" integrity="sha384-NHtbx1Hf6ctHNdZmU28YfhGjB63gcU1YU64ttM+c0RxMKNBj67j+N/axpqTfdffo" crossorigin="anonymous" defer></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.min.js" integrity="sha384-nuT0qw6vBhqN718uyKaI6w1EXH49c5XiMUqmHEEiJadrKmJtmQOVVsd8vTgBpr8h" crossorigin="anonymous" defer></script>
 	<script type="text/javascript" src="/global/site-files/javascript.js" defer></script>
+	<script type="text/javascript" src="../javascript.js" defer></script>
 	<link rel="apple-touch-icon" sizes="57x57" href="/apple-touch-icon-57x57.png">
 	<link rel="apple-touch-icon" sizes="60x60" href="/apple-touch-icon-60x60.png">
 	<link rel="apple-touch-icon" sizes="72x72" href="/apple-touch-icon-72x72.png">
@@ -64,39 +65,18 @@
 					$password_hash = $myrow['password'];
 					if(password_verify($password , $password_hash))
 					{
-							// $result=mysqli_query($link,"SELECT * FROM person");
-					 	// 	$myrow= mysqli_fetch_array($result);
-						echo '<form action="update.php" method="post" name="form" class="right-aligned-form"> 
-						First name: <input name="first_name" type="varchar" class="login-input-label" size="20" maxlength="40" value='.$myrow['first_name'].'><br>
-						Middle name: <input name="middle_name" type="varchar" class="login-input-label" size="20" maxlength="40" value='.$myrow['middle_name'].'><br>
-						Last name: <input name="last_name" type="varchar" class="login-input-label" size="20" maxlength="40" value='.$myrow['last_name'].'><br>';
-						if ($myrow['sex']===1)
-							echo '
-						Sex: <select class="select-custom" name="sex" size="1">
-						<option>Sex:</option><option selected value="1">Male</option>
-						<option value="0">Female</option></select><br>';
-						else if ($myrow['sex']===0)
-							echo '
-						Sex: <select class="select-custom" name="sex" size="1">
-						<option>Sex:</option><option value="1">Male</option>
-						<option selected value="0">Female</option></select><br>';
-						else
-							echo '
-						Sex: <select class="select-custom" name="sex" size="1">
-						<option selected>Sex:</option><option value="1">Male</option>
-						<option value="0">Female</option></select><br>';
-						if ($myrow['birth_day']==0){$myrow['birth_day']="";}
-						if ($myrow['birth_month']==0){$myrow['birth_month']="";}
-						if ($myrow['birth_year']==0){$myrow['birth_year']="";}
-						echo 'Birth day: <input name="birth_day" type="varchar" class="login-input-label" size="20" maxlength="40" value='.$myrow['birth_day'].'><br>
-						Birth month: <input name="birth_month" type="varchar" class="login-input-label" size="20" maxlength="40" value='.$myrow['birth_month'].'><br>
-						Birth year: <input name="birth_year" type="varchar" class="login-input-label" size="20" maxlength="40" value='.$myrow['birth_year'].'><br>
-						City: <input name="city" type="varchar" size="20" class="login-input-label" maxlength="40" value='.$myrow['city'].'><br>
-						Country: <input name="country" type="varchar" class="login-input-label" size="20" maxlength="40" value='.$myrow['country'].'><br>
-						Religion: <input name="religion" type="varchar" class="login-input-label" size="20" maxlength="40" value='.$myrow['religion'].'><br>
-						Political views: <input name="political_views" type="varchar" class="login-input-label" size="20" maxlength="40" value='.$myrow['political_views'].'><br>
-						<input name="submit" class="standard-button" type="submit" value="Update data">            
-						</form>';
+						$result=mysqli_query($link,"SELECT * FROM person join contacts on(person.id=contacts.owner) where person.nickname='$nickname'");
+						$myrow= mysqli_fetch_array($result);
+						echo '<div class="right-aligned-form"><button class="standard-button" onclick="addInput(event)">Add more</button></div>';
+						echo "<form id='extForm' action='update-contacts.php' method='post' name='form' class='right-aligned-form'>";
+						echo "<input name='submit' class='standard-button' type='submit' value='Update data'><br>";
+						do
+						{
+							if ($myrow['account'] or $myrow['account_id']) 
+								echo '<input name="account[]" type="varchar" class="login-input-label" size="20" maxlength="40" value='.$myrow['account'].'><input name="account_id[]" type="varchar" class="login-input-label" size="20" maxlength="40" value='.$myrow['account_id'].'><br><br>';
+						}
+						while($myrow=mysqli_fetch_array($result));
+						echo "</form>";
 					}
 					else
 					{
@@ -107,7 +87,6 @@
 				mysqli_close($link);
 
 				?>
-				<a href="/test/practice-6/profile/edit.php">Edit</a>
 			</div>
 		</div>
 		<?php include("../footer.php"); ?>

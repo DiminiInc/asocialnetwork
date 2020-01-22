@@ -18,3 +18,26 @@ function loginTabsChange(evt, tabName) {
   document.getElementById(tabName).style.display = "block";
   evt.currentTarget.className += " active";
 }
+
+function addInput(e){
+  var input = document.createElement("input");
+  input.setAttribute('name', 'account[]');
+  input.setAttribute('type', 'varchar');
+  input.setAttribute('class', 'login-input-label');
+  input.setAttribute('maxlength', '40');
+  var parent = document.getElementById("extForm");
+  parent.appendChild(input);
+  var input = document.createElement("input");
+  input.setAttribute('name', 'account_id[]');
+  input.setAttribute('type', 'varchar');
+  input.setAttribute('class', 'login-input-label');
+  input.setAttribute('maxlength', '40');
+  var parent = document.getElementById("extForm");
+  parent.appendChild(input);
+  var br = document.createElement("br");
+  var parent = document.getElementById("extForm");
+  parent.appendChild(br);
+  var br = document.createElement("br");
+  var parent = document.getElementById("extForm");
+  parent.appendChild(br);
+}

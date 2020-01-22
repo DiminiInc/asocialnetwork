@@ -96,7 +96,7 @@
 				}
 				while($myrow=mysqli_fetch_array($result));
 				if ($nickname==$nickname_real){
-					echo '<a class="standard-button" href="/test/practice-6/profile/edit.php">Edit</a>';
+					echo '<a class="standard-button" href="/test/practice-6/profile/edit.php">Edit</a><a class="standard-button" href="/test/practice-6/profile/edit-contacts.php">Edit contacts</a>';
 				} else {
 					if(isset($_GET['nickname'])) { $nickname=$_GET['nickname']; } 
 					$myrow= mysqli_fetch_array(mysqli_query($link,("SELECT status FROM relationship where (((person_1 in (select id from person where nickname='$nickname_real')) and (person_2 in (select id from person where nickname='$nickname'))) or ((person_2 in (select id from person where nickname='$nickname_real')) and (person_1 in (select id from person where nickname='$nickname'))))")));
@@ -107,10 +107,10 @@
 						if ($myrow['status']==1) {
 							echo'<a class="standard-button" href="/test/practice-6/friends/remove.php?friend_nickname='.$nickname.'">Cancel request</a>';
 						} else {
-							
+
 							echo'<a class="standard-button" href="/test/practice-6/friends/add.php?friend_nickname='.$nickname.'">Accept request</a>
 							<a class="standard-button" href="/test/practice-6/friends/remove.php?friend_nickname='.$nickname.'">Cancel request</a>';
-							
+
 						}
 					} else {
 						echo'<a class="standard-button" href="/test/practice-6/friends/request.php?friend_nickname='.$nickname.'">Send request</a>';
@@ -118,7 +118,7 @@
 				}
 				?>
 
-				
+
 			</div>
 			<div class="data-section">
 				<?php 

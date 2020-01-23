@@ -61,7 +61,7 @@
 					<label for="first_name" class="login-input-label">First name</label>
 					<input name="first_name" type="text" size="20" maxlength="40" class="login-input-field"><br>
 					<label for="last_name" class="login-input-label">Last name</label>
-					<input name="last_name" type="password" size="20" maxlength="40" class="login-input-field"><br>
+					<input name="last_name" type="text" size="20" maxlength="40" class="login-input-field"><br>
 					<input name="submit" type="submit" value="Sign up" class="submit-button"> 
 				</form>  
 			</div>

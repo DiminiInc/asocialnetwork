@@ -23,6 +23,7 @@ function addInput(e){
   var input = document.createElement("input");
   input.setAttribute('name', 'account[]');
   input.setAttribute('type', 'varchar');
+  input.setAttribute('placeholder', 'Account type');
   input.setAttribute('class', 'login-input-label');
   input.setAttribute('maxlength', '40');
   var parent = document.getElementById("extForm");
@@ -30,6 +31,7 @@ function addInput(e){
   var input = document.createElement("input");
   input.setAttribute('name', 'account_id[]');
   input.setAttribute('type', 'varchar');
+  input.setAttribute('placeholder', 'Account ID');
   input.setAttribute('class', 'login-input-label');
   input.setAttribute('maxlength', '40');
   var parent = document.getElementById("extForm");

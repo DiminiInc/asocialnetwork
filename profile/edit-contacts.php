@@ -73,7 +73,7 @@
 						do
 						{
 							if ($myrow['account'] or $myrow['account_id']) 
-								echo '<input name="account[]" type="varchar" class="login-input-label" size="20" maxlength="40" value='.$myrow['account'].'><input name="account_id[]" type="varchar" class="login-input-label" size="20" maxlength="40" value='.$myrow['account_id'].'><br><br>';
+								echo '<input name="account[]" type="varchar" placeholder="Account type" class="login-input-label" size="20" maxlength="40" value='.$myrow['account'].'><input name="account_id[]" type="varchar" placeholder="Account ID" class="login-input-label" size="20" maxlength="40" value='.$myrow['account_id'].'><br><br>';
 						}
 						while($myrow=mysqli_fetch_array($result));
 						echo "</form>";

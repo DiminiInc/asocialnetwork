@@ -62,8 +62,6 @@
 				$password=$_COOKIE["password"];
 				if (!isset($_SESSION[$nickname]))
 				{
-						// $nickname=$_GET['nickname'];
-						// echo $_GET['nickname'];
 					$result=mysqli_query($link,"SELECT * FROM person where nickname='$nickname'");
 					$myrow= mysqli_fetch_array($result);
 					$password_hash = $myrow['password'];
@@ -86,10 +84,8 @@
 					{
 						echo'<span style="color: red; font-weight: bold;">Please authorize</span>'; 
 					}
-				}
-				
+				}		
 				mysqli_close($link);
-
 				?>
 			</div>
 			<div id="outgoing" class="tabcontent">
